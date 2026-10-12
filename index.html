@@ -736,14 +736,113 @@ html, body { overflow-x: clip; }
 .p--phone .p-detail .p-actions .p-btn { flex: 1 1 auto; white-space: nowrap; padding-inline: 14px; }
 .p--phone .p-detail .p-actions .p-btn--primary { flex-basis: 100%; }
 
-/* phone mode on wide screens: headline on the left, phone centered and starting at the top */
+
+/* ── device switch: a fixed rail in the left gutter, same spot for every view ── */
+.ek-stage__main { position: relative; }
+.ek-switch__label { display: none; }
+.ek-seg__pill { transition: transform .6s var(--ek-spring), width .6s var(--ek-spring), height .6s var(--ek-spring); }
+.ek-switch { display: flex; width: max-content; margin: 0 auto 22px; }
+.ek-switch button svg { transition: transform .5s var(--ek-spring); }
+.ek-switch button[aria-pressed="true"] svg { transform: scale(1.12); }
 @media (min-width: 1001px) {
-  .ek-page.is-phone { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); column-gap: 40px; align-items: start; }
-  .ek-page.is-phone > * { grid-column: 1 / -1; }
-  .ek-page.is-phone > .ek-lede { grid-column: 1; grid-row: 2; flex-direction: column; align-items: flex-start; justify-content: center; align-self: center; margin: 0; }
-  .ek-page.is-phone > .ek-stage { grid-column: 2; grid-row: 2; margin-top: 18px; }
-  .ek-page.is-phone .ek-lede h1 { font-size: clamp(30px, 2.8vw, 42px); max-width: 12ch; }
-  .ek-page.is-phone .ek-phone { width: clamp(260px, calc((100svh - 180px) * .43), 360px); }
+  .ek-switch { position: absolute; z-index: 6; margin: 0; flex-direction: column; align-items: stretch; padding: 6px; border-radius: 18px;
+    right: calc(50% + var(--ek-dev-w) / 2 + 28px); top: calc(var(--ek-dev-w) * .28 - 80px);
+    background: rgba(18,19,23,.62); backdrop-filter: blur(18px) saturate(1.4); -webkit-backdrop-filter: blur(18px) saturate(1.4);
+    border: 1px solid rgba(255,255,255,.09); box-shadow: 0 24px 50px -24px rgba(0,0,0,.9), inset 0 1px 0 rgba(255,255,255,.06); }
+  .ek-switch__label { display: block; padding: 8px 12px 9px; font: 500 9.5px/1 var(--ek-mono); letter-spacing: .16em; text-transform: uppercase; color: var(--ek-faint); white-space: nowrap; }
+  .ek-switch button { justify-content: flex-start; height: 40px; padding-inline: 13px 22px; border-radius: 12px; }
+  .ek-switch button:not([aria-pressed="true"]):hover { color: var(--ek-fg); background: rgba(255,255,255,.05); }
+  .ek-switch .ek-seg__pill { border-radius: 12px; box-shadow: 0 6px 18px -6px rgba(255,255,255,.35); }
+  .ek-lede { margin-bottom: 26px; }
+}
+
+/* ── phone view: portrait and landscape side by side, same width as TV and web ── */
+.ek-phones { display: flex; align-items: center; justify-content: space-between; width: var(--ek-dev-w); margin-inline: calc(50% - var(--ek-dev-w) / 2); }
+.ek-phones .ek-phone { width: calc(var(--ek-dev-w) * .94 / 3.18); margin: 0; flex: none; }
+.ek-phones .ek-phone--land { width: calc(var(--ek-dev-w) * .94 * 2.18 / 3.18); }
+.ek-phone--land .ek-phone__btn--h { position: absolute; height: 3px; border-radius: 2px; background: linear-gradient(180deg, #2a2b30, #45464c); }
+.ek-phone--land .ek-bias--near { inset: -4% -2%; border-radius: 64px; }
+.ek-phone--land .ek-bias--far { inset: -24% -6%; border-radius: 120px; }
+.ek-phone--land .ek-phone__glow { inset: -10% 10%; }
+@media (max-width: 700px) {
+  .ek-phones { width: auto; margin-inline: 0; justify-content: center; }
+  .ek-phones .ek-phone { width: min(340px, 86vw); }
+  .ek-phones .ek-phone--land { display: none; }
+}
+
+/* landscape phone layout (844 x 390) */
+.p--land .p-status { display: none; }
+.p--land .p-island { top: 50%; left: 11px; transform: translateY(-50%); width: 36px; height: 124px; }
+.p--land .p-scroll { padding: 0 56px 64px; }
+.p--land .p-apphead { padding: 14px 4px 10px; }
+.p--land .p-apphead .p-logo { font-size: 17px; }
+.p--land .p-hero { margin-inline: 0; height: 236px; border-radius: 20px; }
+.p--land .p-hero .p-scrim-l { display: block; }
+.p--land .p-hero .p-scrim-b { background: linear-gradient(0deg, rgba(7,8,10,.9) 0%, rgba(7,8,10,0) 60%); }
+.p--land .p-copy { left: 18px; right: auto; bottom: 16px; width: 360px; }
+.p--land .p-title { font-size: 28px; }
+.p--land .p-why { margin-top: 8px; padding: 9px 11px; }
+.p--land .p-why__text { font-size: 12.5px; min-height: 0; }
+.p--land .p-actions { margin-top: 10px; }
+.p--land .p-actions .p-btn { height: 34px; }
+.p--land .p-moods { padding-left: 0; margin-top: 14px; }
+.p--land .p-row { padding: 14px 0 0; }
+.p--land .p-row .p-track { margin-inline: 0; padding-inline: 0; }
+.p--land .p-card { --cw: 190px; }
+.p--land .p-row--poster .p-card { --cw: 104px; }
+.p--land .p-tonight { flex-direction: row; align-items: center; }
+.p--land .p-tabs { height: 56px; padding: 0 120px 10px; align-items: center; }
+.p--land .p-tab { grid-auto-flow: column; gap: 6px; align-items: center; font-size: 11.5px; }
+.p--land .p-tab svg { width: 20px; height: 20px; }
+.p--land .p-homebar { bottom: 5px; width: 160px; }
+.p--land .p-page { padding: 4px 0 0; }
+.p--land .p-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.p--land .p-grid--search { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.p--land .p-moodtiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.p--land .p-moodtile:first-child { grid-column: span 1; aspect-ratio: auto; }
+.p--land .p-plan { grid-template-columns: 200px 1fr; }
+.p--land .p-plan__art { height: auto; }
+.p--land .p-detail__panel { inset: 0; border-radius: 0; overflow-y: auto; scrollbar-width: none; animation: p-fade .4s ease both; }
+.p--land .p-detail__grab { display: none; }
+.p--land .p-detail:not(.p-picks) .p-detail__art { position: absolute; inset: 0; aspect-ratio: auto; }
+.p--land .p-detail:not(.p-picks) .p-detail__art::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(12,13,17,.97) 0%, rgba(12,13,17,.8) 42%, rgba(12,13,17,0) 72%); }
+.p--land .p-detail:not(.p-picks) .p-detail__body { position: absolute; left: 56px; bottom: 18px; width: 430px; margin: 0; padding: 0; }
+.p--land .p-detail .p-title { font-size: 28px; }
+.p--land .p-detail .p-actions { flex-wrap: nowrap; }
+.p--land .p-detail .p-actions .p-btn--primary { flex-basis: auto; }
+.p--land .p-close { top: 14px; right: 56px; }
+.p--land .p-confirm__card { width: 420px; margin: 0 auto 12px; }
+.p--land .p-picks__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+
+/* My stuff profile header */
+.p-me { display: flex; align-items: center; gap: 22px; }
+.p-me__photo { flex: none; width: 92px; height: 92px; border-radius: 50%; overflow: hidden; display: grid; place-items: center; font-weight: 600;
+  box-shadow: 0 0 0 3px #0c0d11, 0 0 0 5px color-mix(in oklab, var(--ek-ambient) 70%, #fff); background: #1a1b20; }
+.p-me__photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.p-me .p-profile__line { margin-top: 6px; }
+.p--tv .p-me__photo { width: 112px; height: 112px; }
+.p--phone .p-me { gap: 16px; align-items: flex-start; }
+.p--phone:not(.p--land) .p-me__photo { width: 72px; height: 72px; }
+.p--phone:not(.p--land) .p-me .p-profile__line { font-size: 13px; }
+.p-me__links { display: flex; gap: 10px; }
+.p--phone .p-me__links .p-btn { flex: 1; }
+
+/* ── phones: locked proportions, corners scale with the device ── */
+.ek-phone { container-type: inline-size; }
+.ek-phone .ek-scaled { height: auto !important; aspect-ratio: 390 / 844; }
+.ek-phone--land .ek-scaled { aspect-ratio: 844 / 390; }
+.ek-phone__frame { padding: 2.9cqw; border-radius: 16.5cqw; }
+.ek-phone__screen { border-radius: 13.6cqw; }
+.ek-phone .ek-bias--near { border-radius: 17cqw; }
+.ek-phone .ek-bias--far { border-radius: 30cqw; }
+.ek-phone--land .ek-phone__frame { padding: 1.35cqw; border-radius: 7.7cqw; }
+.ek-phone--land .ek-phone__screen { border-radius: 6.35cqw; }
+.ek-phone--land .ek-bias--near { border-radius: 8cqw; }
+.ek-phone--land .ek-bias--far { border-radius: 14cqw; }
+
+/* more room between the switch and the preview */
+@media (min-width: 1001px) {
+  .ek-switch { right: calc(50% + var(--ek-dev-w) / 2 + clamp(24px, (100vw - var(--ek-dev-w)) / 2 - 140px, 64px)); }
 }
 
 </style>
@@ -1069,7 +1168,7 @@ function usePill(containerRef, activeKey) {
     if (!el) return;
     const measure = () => {
       const a = el.querySelector('[aria-pressed="true"]');
-      if (a) setBox({ x: a.offsetLeft, w: a.offsetWidth });
+      if (a) setBox({ x: a.offsetLeft, y: a.offsetTop, w: a.offsetWidth, h: a.offsetHeight });
     };
     measure();
     const ro = new ResizeObserver(measure);
@@ -1077,7 +1176,7 @@ function usePill(containerRef, activeKey) {
     document.fonts && document.fonts.ready.then(measure);
     return () => ro.disconnect();
   }, [activeKey]);
-  return { transform: `translateX(${box.x}px)`, width: box.w };
+  return box.h != null ? { transform: `translate(${box.x}px, ${box.y}px)`, width: box.w, height: box.h, top: 0, bottom: "auto" } : { transform: `translateX(${box.x}px)`, width: box.w };
 }
 const I = {
   play: /* @__PURE__ */ React.createElement("svg", { viewBox: "0 0 24 24", fill: "currentColor" }, /* @__PURE__ */ React.createElement("path", { d: "M7 4.5v15a1 1 0 0 0 1.5.86l12.5-7.5a1 1 0 0 0 0-1.72L8.5 3.64A1 1 0 0 0 7 4.5z" })),
@@ -1207,32 +1306,11 @@ const ME = {
   line: "Film and TV recommendations for 260K+ people on Instagram, TikTok and YouTube.",
   favorites: ["past-lives", "interstellar", "arrival", "la-la-land", "coco", "dune-part-two"]
 };
-function Avatar({ size = 30, onClick, focused }) {
-  const inner = ME.avatar ? /* @__PURE__ */ React.createElement("img", { src: ME.avatar, alt: "" }) : /* @__PURE__ */ React.createElement("span", null, "EK");
-  return /* @__PURE__ */ React.createElement("button", { className: "p-avatar" + (focused ? " is-focus" : ""), style: { width: size, height: size, fontSize: size * 0.36 }, onClick, "aria-label": "Open profile", title: ME.name }, inner);
-}
 const moodLog = /* @__PURE__ */ new Map();
 function logMood(id) {
   moodLog.set(id, (moodLog.get(id) || 0) + 1);
 }
 logMood("slow");
-function Profile({ device, onClose, onOpenFilm }) {
-  useEffect(() => {
-    const k = (e) => {
-      if (e.key === "Escape" || device === "tv" && e.key === "Backspace") {
-        e.preventDefault();
-        onClose();
-      }
-    };
-    window.addEventListener("keydown", k);
-    return () => window.removeEventListener("keydown", k);
-  }, [onClose, device]);
-  const total = [...moodLog.values()].reduce((a, b) => a + b, 0);
-  return /* @__PURE__ */ React.createElement("div", { className: "p-detail p-profile", role: "dialog", "aria-label": "Profile" }, /* @__PURE__ */ React.createElement("div", { className: "p-detail__back", onClick: onClose }), /* @__PURE__ */ React.createElement("div", { className: "p-detail__panel" }, device === "phone" && /* @__PURE__ */ React.createElement("div", { className: "p-detail__grab" }), device !== "tv" ? /* @__PURE__ */ React.createElement("button", { className: "p-close", onClick: onClose, "aria-label": "Close" }, I.close) : /* @__PURE__ */ React.createElement("button", { className: "p-back-hint", onClick: onClose, "aria-label": "Back" }, /* @__PURE__ */ React.createElement("span", { className: "p-back-hint__chev" }, I.chev)), /* @__PURE__ */ React.createElement("div", { className: "p-profile__cover" }, /* @__PURE__ */ React.createElement(Art, { film: FILM[ME.favorites[0]] }), /* @__PURE__ */ React.createElement("div", { className: "p-scrim-b" })), /* @__PURE__ */ React.createElement("div", { className: "p-profile__body" }, /* @__PURE__ */ React.createElement("div", { className: "p-profile__head" }, /* @__PURE__ */ React.createElement("div", { className: "p-profile__ring" }, /* @__PURE__ */ React.createElement(Avatar, { size: device === "tv" ? 112 : 88 })), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("h2", { className: "p-title is-in" }, ME.name), /* @__PURE__ */ React.createElement("div", { className: "p-meta" }, /* @__PURE__ */ React.createElement("span", null, ME.handle), /* @__PURE__ */ React.createElement("span", null, "\xB7"), /* @__PURE__ */ React.createElement("span", null, "Film and TV")), /* @__PURE__ */ React.createElement("p", { className: "p-profile__line" }, ME.line))), /* @__PURE__ */ React.createElement("div", { className: "p-profile__sec" }, /* @__PURE__ */ React.createElement("div", { className: "p-row__label" }, "Favorites", /* @__PURE__ */ React.createElement("small", null, ME.favorites.length, " titles")), /* @__PURE__ */ React.createElement("div", { className: "p-profile__favs" }, ME.favorites.map((slug, i) => /* @__PURE__ */ React.createElement(Card, { key: slug, film: FILM[slug], kind: "poster", delay: i * 60, onOpen: () => onOpenFilm && onOpenFilm(slug) })))), /* @__PURE__ */ React.createElement("div", { className: "p-profile__sec" }, /* @__PURE__ */ React.createElement("div", { className: "p-row__label" }, "Moods this visit", /* @__PURE__ */ React.createElement("small", null, total, " picks")), /* @__PURE__ */ React.createElement("div", { className: "p-profile__moods" }, MOODS.map((m) => {
-    const n = moodLog.get(m.id) || 0;
-    return /* @__PURE__ */ React.createElement("div", { key: m.id, className: "p-profile__mood" }, /* @__PURE__ */ React.createElement("span", null, m.row), /* @__PURE__ */ React.createElement("i", { style: { "--w": total ? n / total * 100 + "%" : "0%" } }), /* @__PURE__ */ React.createElement("b", null, n));
-  }))), device !== "tv" && /* @__PURE__ */ React.createElement("div", { className: "p-actions" }, /* @__PURE__ */ React.createElement("a", { className: "p-btn p-btn--primary", href: "https://erfesh.com", target: "_blank", rel: "noopener" }, "erfesh.com"), /* @__PURE__ */ React.createElement("a", { className: "p-btn", href: "https://www.linkedin.com/in/erfesh", target: "_blank", rel: "noopener" }, "LinkedIn")))));
-}
 function Why({ slug, mood, compact }) {
   const { text, loading } = useWhy(slug, mood);
   const { shown, done } = useStream(text);
@@ -1518,13 +1596,17 @@ function MinePage({ device, onOpen, onHero }) {
   const owned = [...t.owned].map((s) => FILM[s]);
   const member = t.subs.has("Aperture+");
   const plus = FILMS.filter((f) => f.offer.type === "addon");
-  return /* @__PURE__ */ React.createElement("div", { className: "p-page" }, /* @__PURE__ */ React.createElement("div", { className: "p-page__head" }, /* @__PURE__ */ React.createElement("div", { className: "p-kicker" }, /* @__PURE__ */ React.createElement("i", null), "My stuff"), /* @__PURE__ */ React.createElement("h2", { className: "p-title is-in" }, "Everything that\u2019s yours")), /* @__PURE__ */ React.createElement("section", { className: "p-mine" }, /* @__PURE__ */ React.createElement("div", { className: "p-row__label" }, "Pick up where you left off", /* @__PURE__ */ React.createElement("small", null, cont.length, " titles")), cont.length ? /* @__PURE__ */ React.createElement("div", { className: "p-mine__cont" }, cont.map((f, i) => /* @__PURE__ */ React.createElement("div", { key: f.slug, className: "p-mine__c" }, /* @__PURE__ */ React.createElement(Card, { film: f, delay: i * 50, onFocus: () => onHero(f), onOpen: () => onOpen(f) }), /* @__PURE__ */ React.createElement("button", { className: "p-mine__done", "data-focus": true, onClick: () => {
+  const moodTotal = [...moodLog.values()].reduce((a, b) => a + b, 0);
+  return /* @__PURE__ */ React.createElement("div", { className: "p-page" }, /* @__PURE__ */ React.createElement("div", { className: "p-page__head p-me" }, /* @__PURE__ */ React.createElement("div", { className: "p-me__photo" }, ME.avatar ? /* @__PURE__ */ React.createElement("img", { src: ME.avatar, alt: "" }) : /* @__PURE__ */ React.createElement("span", null, "EK")), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { className: "p-kicker" }, /* @__PURE__ */ React.createElement("i", null), "My stuff"), /* @__PURE__ */ React.createElement("h2", { className: "p-title is-in" }, ME.name), /* @__PURE__ */ React.createElement("div", { className: "p-meta" }, /* @__PURE__ */ React.createElement("span", null, ME.handle), /* @__PURE__ */ React.createElement("span", null, "\xB7"), /* @__PURE__ */ React.createElement("span", null, "Film and TV")), /* @__PURE__ */ React.createElement("p", { className: "p-profile__line" }, ME.line))), /* @__PURE__ */ React.createElement("section", { className: "p-mine" }, /* @__PURE__ */ React.createElement("div", { className: "p-row__label" }, "Pick up where you left off", /* @__PURE__ */ React.createElement("small", null, cont.length, " titles")), cont.length ? /* @__PURE__ */ React.createElement("div", { className: "p-mine__cont" }, cont.map((f, i) => /* @__PURE__ */ React.createElement("div", { key: f.slug, className: "p-mine__c" }, /* @__PURE__ */ React.createElement(Card, { film: f, delay: i * 50, onFocus: () => onHero(f), onOpen: () => onOpen(f) }), /* @__PURE__ */ React.createElement("button", { className: "p-mine__done", "data-focus": true, onClick: () => {
     t.clearCont(f.slug);
     toast(f.title + " removed from Continue watching");
-  } }, I.close, "I\u2019m done with this")))) : /* @__PURE__ */ React.createElement("p", { className: "p-empty" }, "You\u2019re all caught up. Anything you start shows up here, and you can clear it in one tap.")), /* @__PURE__ */ React.createElement("section", { className: "p-mine" }, /* @__PURE__ */ React.createElement("div", { className: "p-row__label" }, "My list", /* @__PURE__ */ React.createElement("small", null, list.length, " titles")), list.length ? /* @__PURE__ */ React.createElement("div", { className: "p-grid p-grid--short" }, list.map((f, i) => /* @__PURE__ */ React.createElement(PosterTile, { key: f.slug, film: f, delay: i * 40, onOpen: () => onOpen(f), onHero }))) : /* @__PURE__ */ React.createElement("p", { className: "p-empty" }, "Nothing saved yet. Use My list on any title to keep it here.")), /* @__PURE__ */ React.createElement("section", { className: "p-mine" }, /* @__PURE__ */ React.createElement("div", { className: "p-row__label" }, "Rented and bought", /* @__PURE__ */ React.createElement("small", null, owned.length, " titles")), owned.length ? /* @__PURE__ */ React.createElement("div", { className: "p-grid p-grid--short" }, owned.map((f, i) => /* @__PURE__ */ React.createElement(PosterTile, { key: f.slug, film: f, delay: i * 40, onOpen: () => onOpen(f), onHero, extra: "Rented \xB7 30 days to start" }))) : /* @__PURE__ */ React.createElement("p", { className: "p-empty" }, "Nothing rented or bought. Titles that cost extra always say so before you pay.")), /* @__PURE__ */ React.createElement("section", { className: "p-mine" }, /* @__PURE__ */ React.createElement("div", { className: "p-plan" }, /* @__PURE__ */ React.createElement("div", { className: "p-plan__art" }, plus.map((f, i) => /* @__PURE__ */ React.createElement("div", { key: f.slug, className: "p-plan__p", style: { "--i": i } }, /* @__PURE__ */ React.createElement(Art, { film: f, kind: "poster" })))), /* @__PURE__ */ React.createElement("div", { className: "p-plan__body" }, /* @__PURE__ */ React.createElement("div", { className: "p-kicker" }, /* @__PURE__ */ React.createElement("i", null), member ? "Your plan" : "Add-on"), /* @__PURE__ */ React.createElement("h3", null, "Aperture+"), /* @__PURE__ */ React.createElement("p", null, member ? "Free week is on. 7 days left, then $5.99 a month. We\u2019ll remind you 2 days before it ends." : "Adds hand-picked arthouse films like " + plus.map((f) => f.title).join(" and ") + ". 7 days free, then $5.99 a month."), /* @__PURE__ */ React.createElement("div", { className: "p-actions" }, member ? /* @__PURE__ */ React.createElement("button", { className: "p-btn", "data-focus": true, onClick: () => setCancel(true) }, "Cancel Aperture+") : /* @__PURE__ */ React.createElement("button", { className: "p-btn p-btn--primary", "data-focus": true, onClick: () => {
+  } }, I.close, "I\u2019m done with this")))) : /* @__PURE__ */ React.createElement("p", { className: "p-empty" }, "You\u2019re all caught up. Anything you start shows up here, and you can clear it in one tap.")), /* @__PURE__ */ React.createElement("section", { className: "p-mine" }, /* @__PURE__ */ React.createElement("div", { className: "p-row__label" }, "My list", /* @__PURE__ */ React.createElement("small", null, list.length, " titles")), list.length ? /* @__PURE__ */ React.createElement("div", { className: "p-grid p-grid--short" }, list.map((f, i) => /* @__PURE__ */ React.createElement(PosterTile, { key: f.slug, film: f, delay: i * 40, onOpen: () => onOpen(f), onHero }))) : /* @__PURE__ */ React.createElement("p", { className: "p-empty" }, "Nothing saved yet. Use My list on any title to keep it here.")), /* @__PURE__ */ React.createElement("section", { className: "p-mine" }, /* @__PURE__ */ React.createElement("div", { className: "p-row__label" }, "Favorites", /* @__PURE__ */ React.createElement("small", null, ME.favorites.length, " titles")), /* @__PURE__ */ React.createElement("div", { className: "p-grid p-grid--short" }, ME.favorites.map((slug, i) => /* @__PURE__ */ React.createElement(PosterTile, { key: slug, film: FILM[slug], delay: i * 40, onOpen: () => onOpen(FILM[slug]), onHero })))), /* @__PURE__ */ React.createElement("section", { className: "p-mine" }, /* @__PURE__ */ React.createElement("div", { className: "p-row__label" }, "Rented and bought", /* @__PURE__ */ React.createElement("small", null, owned.length, " titles")), owned.length ? /* @__PURE__ */ React.createElement("div", { className: "p-grid p-grid--short" }, owned.map((f, i) => /* @__PURE__ */ React.createElement(PosterTile, { key: f.slug, film: f, delay: i * 40, onOpen: () => onOpen(f), onHero, extra: "Rented \xB7 30 days to start" }))) : /* @__PURE__ */ React.createElement("p", { className: "p-empty" }, "Nothing rented or bought. Titles that cost extra always say so before you pay.")), /* @__PURE__ */ React.createElement("section", { className: "p-mine" }, /* @__PURE__ */ React.createElement("div", { className: "p-plan" }, /* @__PURE__ */ React.createElement("div", { className: "p-plan__art" }, plus.map((f, i) => /* @__PURE__ */ React.createElement("div", { key: f.slug, className: "p-plan__p", style: { "--i": i } }, /* @__PURE__ */ React.createElement(Art, { film: f, kind: "poster" })))), /* @__PURE__ */ React.createElement("div", { className: "p-plan__body" }, /* @__PURE__ */ React.createElement("div", { className: "p-kicker" }, /* @__PURE__ */ React.createElement("i", null), member ? "Your plan" : "Add-on"), /* @__PURE__ */ React.createElement("h3", null, "Aperture+"), /* @__PURE__ */ React.createElement("p", null, member ? "Free week is on. 7 days left, then $5.99 a month. We\u2019ll remind you 2 days before it ends." : "Adds hand-picked arthouse films like " + plus.map((f) => f.title).join(" and ") + ". 7 days free, then $5.99 a month."), /* @__PURE__ */ React.createElement("div", { className: "p-actions" }, member ? /* @__PURE__ */ React.createElement("button", { className: "p-btn", "data-focus": true, onClick: () => setCancel(true) }, "Cancel Aperture+") : /* @__PURE__ */ React.createElement("button", { className: "p-btn p-btn--primary", "data-focus": true, onClick: () => {
     t.subscribe("Aperture+");
     toast("Your free week of Aperture+ has started");
-  } }, "Try Aperture+ free"))))), cancel && /* @__PURE__ */ React.createElement("div", { className: "p-confirm", role: "dialog", "aria-label": "Cancel Aperture+" }, /* @__PURE__ */ React.createElement("div", { className: "p-confirm__card" }, /* @__PURE__ */ React.createElement("div", { className: "p-kicker" }, /* @__PURE__ */ React.createElement("i", null), "Your plan"), /* @__PURE__ */ React.createElement("h3", null, "Cancel Aperture+?"), /* @__PURE__ */ React.createElement("dl", null, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("dt", null, "You keep it until"), /* @__PURE__ */ React.createElement("dd", null, "The end of your free week")), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("dt", null, "You won\u2019t be charged"), /* @__PURE__ */ React.createElement("dd", null, "$5.99 a month stops")), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("dt", null, "Come back"), /* @__PURE__ */ React.createElement("dd", null, "Anytime, from here"))), /* @__PURE__ */ React.createElement("div", { className: "p-actions" }, /* @__PURE__ */ React.createElement("button", { className: "p-btn p-btn--primary", "data-focus": true, "data-focus-first": true, onClick: () => {
+  } }, "Try Aperture+ free"))))), /* @__PURE__ */ React.createElement("section", { className: "p-mine" }, /* @__PURE__ */ React.createElement("div", { className: "p-row__label" }, "Moods this visit", /* @__PURE__ */ React.createElement("small", null, moodTotal, " picks")), /* @__PURE__ */ React.createElement("div", { className: "p-profile__moods" }, MOODS.map((m) => {
+    const n = moodLog.get(m.id) || 0;
+    return /* @__PURE__ */ React.createElement("div", { key: m.id, className: "p-profile__mood" }, /* @__PURE__ */ React.createElement("span", null, m.row), /* @__PURE__ */ React.createElement("i", { style: { "--w": moodTotal ? n / moodTotal * 100 + "%" : "0%" } }), /* @__PURE__ */ React.createElement("b", null, n));
+  }))), device !== "tv" && /* @__PURE__ */ React.createElement("section", { className: "p-mine p-actions p-me__links" }, /* @__PURE__ */ React.createElement("a", { className: "p-btn p-btn--primary", href: "https://erfesh.com", target: "_blank", rel: "noopener" }, "erfesh.com"), /* @__PURE__ */ React.createElement("a", { className: "p-btn", href: "https://www.linkedin.com/in/erfesh", target: "_blank", rel: "noopener" }, "LinkedIn")), cancel && /* @__PURE__ */ React.createElement("div", { className: "p-confirm", role: "dialog", "aria-label": "Cancel Aperture+" }, /* @__PURE__ */ React.createElement("div", { className: "p-confirm__card" }, /* @__PURE__ */ React.createElement("div", { className: "p-kicker" }, /* @__PURE__ */ React.createElement("i", null), "Your plan"), /* @__PURE__ */ React.createElement("h3", null, "Cancel Aperture+?"), /* @__PURE__ */ React.createElement("dl", null, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("dt", null, "You keep it until"), /* @__PURE__ */ React.createElement("dd", null, "The end of your free week")), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("dt", null, "You won\u2019t be charged"), /* @__PURE__ */ React.createElement("dd", null, "$5.99 a month stops")), /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("dt", null, "Come back"), /* @__PURE__ */ React.createElement("dd", null, "Anytime, from here"))), /* @__PURE__ */ React.createElement("div", { className: "p-actions" }, /* @__PURE__ */ React.createElement("button", { className: "p-btn p-btn--primary", "data-focus": true, "data-focus-first": true, onClick: () => {
     t.unsubscribe("Aperture+");
     setCancel(false);
     toast("Aperture+ is canceled. No charge.");
@@ -1590,20 +1672,12 @@ function SearchPage({ device, mood, goMood, onOpen, onHero }) {
   const suggestions = ["something to cry over", "Denis Villeneuve", "short", "kids", "Nolan", "romantic"];
   return /* @__PURE__ */ React.createElement("div", { className: "p-page p-search" + (tv ? " p-search--tv" : "") }, /* @__PURE__ */ React.createElement("div", { className: "p-search__side" }, /* @__PURE__ */ React.createElement("div", { className: "p-page__head" }, /* @__PURE__ */ React.createElement("div", { className: "p-kicker" }, /* @__PURE__ */ React.createElement("i", null), "Search")), tv ? /* @__PURE__ */ React.createElement("div", { className: "p-search__field", "aria-live": "polite" }, I.search, /* @__PURE__ */ React.createElement("span", null, q || /* @__PURE__ */ React.createElement("em", null, "Titles, people, moods"))) : /* @__PURE__ */ React.createElement("label", { className: "p-search__field" }, I.search, /* @__PURE__ */ React.createElement("input", { ref: input, id: "ek-search", value: q, onChange: (e) => setQ(e.target.value), placeholder: "Titles, people, moods", autoComplete: "off", spellCheck: "false" }), q && /* @__PURE__ */ React.createElement("button", { className: "p-search__clear", onClick: () => setQ(""), "aria-label": "Clear" }, I.close)), tv && /* @__PURE__ */ React.createElement("div", { className: "p-keys" }, KEYS.map((k, i) => /* @__PURE__ */ React.createElement("button", { key: k, className: "p-key", "data-focus": true, "data-focus-first": i === 0 || void 0, onClick: () => setQ((x) => (x + k).slice(0, 30)) }, k)), /* @__PURE__ */ React.createElement("button", { className: "p-key p-key--wide", "data-focus": true, onClick: () => setQ((x) => x + " ") }, "space"), /* @__PURE__ */ React.createElement("button", { className: "p-key p-key--wide", "data-focus": true, onClick: () => setQ((x) => x.slice(0, -1)) }, "delete"), /* @__PURE__ */ React.createElement("button", { className: "p-key p-key--wide", "data-focus": true, onClick: () => setQ("") }, "clear")), !q && /* @__PURE__ */ React.createElement("div", { className: "p-search__try" }, /* @__PURE__ */ React.createElement("span", null, "Try"), suggestions.map((s) => /* @__PURE__ */ React.createElement("button", { key: s, className: "p-token", "data-focus": true, onClick: () => setQ(s.toLowerCase()) }, s)))), /* @__PURE__ */ React.createElement("div", { className: "p-search__main" }, res.moods.length > 0 && /* @__PURE__ */ React.createElement("div", { className: "p-search__moods" }, res.moods.map((m) => /* @__PURE__ */ React.createElement("button", { key: m, className: "p-moodlink", "data-focus": true, onClick: () => goMood(m) }, I.spark, /* @__PURE__ */ React.createElement("span", null, "Sounds like you want something ", /* @__PURE__ */ React.createElement("b", null, MOOD[m].chip)), I.chev))), q && res.films.length > 0 && /* @__PURE__ */ React.createElement("div", { className: "p-row__label" }, "Results", /* @__PURE__ */ React.createElement("small", null, res.films.length, " titles", res.tags.length ? " \xB7 " + res.tags.join(" \xB7 ") : "")), q && res.films.length > 0 && /* @__PURE__ */ React.createElement("div", { className: "p-grid p-grid--search" }, res.films.map((f, i) => /* @__PURE__ */ React.createElement(PosterTile, { key: f.slug, film: f, delay: i * 25, onOpen: () => onOpen(f), onHero }))), q && !res.films.length && /* @__PURE__ */ React.createElement("div", { className: "p-search__none" }, /* @__PURE__ */ React.createElement("p", null, /* @__PURE__ */ React.createElement("b", null, "Nothing on Aperture matches \u201C", q, "\u201D."), " It may be on another service. Here\u2019s what fits your mood tonight instead."), /* @__PURE__ */ React.createElement("div", { className: "p-grid p-grid--short" }, fallback.map((f, i) => /* @__PURE__ */ React.createElement(PosterTile, { key: f.slug, film: f, delay: i * 40, onOpen: () => onOpen(f), onHero })))), !q && /* @__PURE__ */ React.createElement("div", { className: "p-search__blank" }, /* @__PURE__ */ React.createElement(Iris, { size: 54 }), /* @__PURE__ */ React.createElement("p", null, "Search by title, director or genre. Or describe the night you want, like \u201Csomething sad\u201D or \u201Cshort and funny\u201D."))));
 }
-function useClock() {
-  const [t, setT] = useState(() => /* @__PURE__ */ new Date());
-  useEffect(() => {
-    const i = setInterval(() => setT(/* @__PURE__ */ new Date()), 3e4);
-    return () => clearInterval(i);
-  }, []);
-  return t.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
-}
 function RowLabel({ row, t, extra }) {
   const note = row.key === "main" && !row.closest ? filterNote(t) : "";
   return /* @__PURE__ */ React.createElement("div", { className: "p-row__label" }, row.label, /* @__PURE__ */ React.createElement("small", null, row.films.length, " titles", note && " \xB7 " + note), extra);
 }
 const openFor = (row, f) => ({ slug: f.slug, mood: rowMood(row, f) });
-const PAGES = [{ id: "tonight", label: "Tonight" }, { id: "browse", label: "Browse" }, { id: "mine", label: "My stuff" }, { id: "search", label: "Search" }];
+const PAGES = [{ id: "tonight", label: "Tonight" }, { id: "browse", label: "Browse" }, { id: "search", label: "Search" }, { id: "mine", label: "My stuff" }];
 function PageBody({ page, ...props }) {
   return page === "browse" ? /* @__PURE__ */ React.createElement(BrowsePage, { ...props }) : page === "mine" ? /* @__PURE__ */ React.createElement(MinePage, { ...props }) : /* @__PURE__ */ React.createElement(SearchPage, { ...props });
 }
@@ -1618,12 +1692,10 @@ function TV({ mood, setMood, onHero, active }) {
   const [m, setM] = useState(0);
   const [loops, setLoops] = useState(() => lens.map((n2) => loopInit(n2, TV_VIS)));
   const [open, setOpen] = useState(null);
-  const [profile, setProfile] = useState(false);
   const [picks, setPicks] = useState(false);
   const [page, setPage] = useState("tonight");
   const [n, setN] = useState(0);
   const rootRef = useRef();
-  const clock = useClock();
   const go = (id) => {
     setPage(id);
     setZone(id === "tonight" ? "nav" : "rows");
@@ -1636,7 +1708,7 @@ function TV({ mood, setMood, onHero, active }) {
     setR(0);
   };
   const openFilm = (f) => setOpen({ slug: f.slug, mood: f.why[mood] ? mood : firstMood(f) });
-  useSpatial(rootRef, active && page !== "tonight" && !open && !profile, { onBack: () => go("tonight"), onFocusEl: (el) => {
+  useSpatial(rootRef, active && page !== "tonight" && !open, { onBack: () => go("tonight"), onFocusEl: (el) => {
     const sl = el.dataset.slug || (el.querySelector("[data-slug]") || {}).dataset?.slug;
     if (sl) onHero(FILM[sl]);
   }, resetKey: page });
@@ -1667,7 +1739,7 @@ function TV({ mood, setMood, onHero, active }) {
     if (j === 3) setPicks(true);
   };
   useEffect(() => {
-    if (!active || open || profile || picks || page !== "tonight") return;
+    if (!active || open || picks || page !== "tonight") return;
     const onKey = (e) => {
       const k = e.key;
       if (!["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Enter", "Backspace"].includes(k)) return;
@@ -1687,11 +1759,10 @@ function TV({ mood, setMood, onHero, active }) {
       }
       if (s.zone === "nav") {
         if (k === "ArrowLeft") setN((x) => Math.max(0, x - 1));
-        else if (k === "ArrowRight") setN((x) => Math.min(PAGES.length, x + 1));
+        else if (k === "ArrowRight") setN((x) => Math.min(PAGES.length - 1, x + 1));
         else if (k === "ArrowDown") setZone("bar");
         else if (k === "Enter") {
-          if (s.n === PAGES.length) setProfile(true);
-          else if (s.n > 0) go(PAGES[s.n].id);
+          if (s.n > 0) go(PAGES[s.n].id);
           else setZone("bar");
         }
         return;
@@ -1712,9 +1783,9 @@ function TV({ mood, setMood, onHero, active }) {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [active, open, profile, picks, page, setMood]);
+  }, [active, open, picks, page, setMood]);
   const deep = rr > 0;
-  return /* @__PURE__ */ React.createElement("div", { className: "p p--tv" + (deep ? " is-deep" : "") + (page !== "tonight" ? " is-page" : ""), ref: rootRef }, page === "tonight" && /* @__PURE__ */ React.createElement(Hero, { film: hero, mood: heroMood, device: "tv" }), /* @__PURE__ */ React.createElement("div", { className: "p-nav" }, PAGES.map((pg, i) => /* @__PURE__ */ React.createElement("button", { key: pg.id, className: "p-navlink" + (page === pg.id ? " is-on" : "") + (page === "tonight" && zone === "nav" && n === i ? " is-focus" : ""), "data-focus": page !== "tonight" || void 0, onClick: () => go(pg.id) }, pg.id === "search" && I.search, pg.label)), /* @__PURE__ */ React.createElement("span", { className: "p-clock" }, clock), /* @__PURE__ */ React.createElement("span", { "data-focus": page !== "tonight" || void 0, onClick: () => setProfile(true), className: "p-navavatar" }, /* @__PURE__ */ React.createElement(Avatar, { size: 40, focused: page === "tonight" && zone === "nav" && n === PAGES.length, onClick: () => setProfile(true) }))), page !== "tonight" && /* @__PURE__ */ React.createElement("div", { className: "p-pagewrap", key: page }, /* @__PURE__ */ React.createElement(PageBody, { page, device: "tv", mood, goMood, onOpen: openFilm, onHero })), page === "tonight" && /* @__PURE__ */ React.createElement("div", { className: "p-lower" }, /* @__PURE__ */ React.createElement("div", { className: "p-lower__inner", style: { transform: `translateY(${deep ? -(58 + rr * ROW_H) : 0}px)` } }, /* @__PURE__ */ React.createElement(TonightBar, { mood, setMood: (x) => {
+  return /* @__PURE__ */ React.createElement("div", { className: "p p--tv" + (deep ? " is-deep" : "") + (page !== "tonight" ? " is-page" : ""), ref: rootRef }, page === "tonight" && /* @__PURE__ */ React.createElement(Hero, { film: hero, mood: heroMood, device: "tv" }), /* @__PURE__ */ React.createElement("div", { className: "p-nav" }, PAGES.map((pg, i) => /* @__PURE__ */ React.createElement("button", { key: pg.id, className: "p-navlink" + (page === pg.id ? " is-on" : "") + (page === "tonight" && zone === "nav" && n === i ? " is-focus" : ""), "data-focus": page !== "tonight" || void 0, onClick: () => go(pg.id) }, pg.id === "search" && I.search, pg.label))), page !== "tonight" && /* @__PURE__ */ React.createElement("div", { className: "p-pagewrap", key: page }, /* @__PURE__ */ React.createElement(PageBody, { page, device: "tv", mood, goMood, onOpen: openFilm, onHero })), page === "tonight" && /* @__PURE__ */ React.createElement("div", { className: "p-lower" }, /* @__PURE__ */ React.createElement("div", { className: "p-lower__inner", style: { transform: `translateY(${deep ? -(58 + rr * ROW_H) : 0}px)` } }, /* @__PURE__ */ React.createElement(TonightBar, { mood, setMood: (x) => {
     setMood(x);
     setR(0);
   }, device: "tv", focusIdx: zone === "bar" ? m : -1, onPick: () => setPicks(true) }), /* @__PURE__ */ React.createElement("div", { className: "p-rows" }, rows.map((row, ri) => {
@@ -1738,10 +1809,7 @@ function TV({ mood, setMood, onHero, active }) {
   })))), picks && /* @__PURE__ */ React.createElement(Picks, { device: "tv", mood, onClose: () => setPicks(false), onOpen: (f) => {
     setPicks(false);
     setOpen({ slug: f.slug, mood: f.why[mood] ? mood : firstMood(f) });
-  } }), open && /* @__PURE__ */ React.createElement(Detail, { film: FILM[open.slug], mood: open.mood, device: "tv", onClose: () => setOpen(null) }), profile && /* @__PURE__ */ React.createElement(Profile, { device: "tv", onClose: () => setProfile(false), onOpenFilm: (slug) => {
-    setProfile(false);
-    setOpen({ slug, mood: firstMood(FILM[slug]) });
-  } }));
+  } }), open && /* @__PURE__ */ React.createElement(Detail, { film: FILM[open.slug], mood: open.mood, device: "tv", onClose: () => setOpen(null) }));
 }
 const WEB_STEP = { key: 228 + 14, poster: 140 + 14 }, WEB_VIS = { key: 4, poster: 7 };
 function Web({ mood, setMood, onHero }) {
@@ -1754,7 +1822,6 @@ function Web({ mood, setMood, onHero }) {
   const [loops, setLoops] = useState(() => lens.map((n, i) => loopInit(n, visOf(i))));
   const [open, setOpen] = useState(null);
   const [scrolled, setScrolled] = useState(false);
-  const [profile, setProfile] = useState(false);
   const [picks, setPicks] = useState(false);
   const [page, setPage] = useState("tonight");
   const goMood = (x) => {
@@ -1794,20 +1861,16 @@ function Web({ mood, setMood, onHero }) {
         } : void 0
       }
     ))), L.moved && /* @__PURE__ */ React.createElement("button", { className: "p-arrow p-arrow--l", "aria-label": "Previous", onClick: () => flip(ri, -1, kind) }, I.chev), !L.flat && /* @__PURE__ */ React.createElement("button", { className: "p-arrow p-arrow--r", "aria-label": "Next", onClick: () => flip(ri, 1, kind) }, I.chev)));
-  })), /* @__PURE__ */ React.createElement("div", { className: "p-nav" }, /* @__PURE__ */ React.createElement("button", { className: "p-logo", onClick: () => setPage("tonight") }, /* @__PURE__ */ React.createElement(LiveIris, { mood, size: 20 }), "Aperture"), PAGES.slice(0, 3).map((pg) => /* @__PURE__ */ React.createElement("button", { key: pg.id, className: "p-navlink" + (page === pg.id ? " is-on" : ""), onClick: () => setPage(pg.id) }, pg.label)), /* @__PURE__ */ React.createElement("span", { className: "p-nav__end" }, /* @__PURE__ */ React.createElement("button", { className: "p-navsearch" + (page === "search" ? " is-on" : ""), onClick: () => setPage("search"), "aria-label": "Search" }, I.search), /* @__PURE__ */ React.createElement(Avatar, { onClick: () => setProfile(true) }))), picks && /* @__PURE__ */ React.createElement(Picks, { device: "web", mood, onClose: () => setPicks(false), onOpen: (f) => {
+  })), /* @__PURE__ */ React.createElement("div", { className: "p-nav" }, /* @__PURE__ */ React.createElement("button", { className: "p-logo", onClick: () => setPage("tonight") }, /* @__PURE__ */ React.createElement(LiveIris, { mood, size: 20 }), "Aperture"), PAGES.map((pg) => /* @__PURE__ */ React.createElement("button", { key: pg.id, className: "p-navlink" + (page === pg.id ? " is-on" : ""), onClick: () => setPage(pg.id) }, pg.id === "search" && I.search, pg.label))), picks && /* @__PURE__ */ React.createElement(Picks, { device: "web", mood, onClose: () => setPicks(false), onOpen: (f) => {
     setPicks(false);
     setOpen({ slug: f.slug, mood: f.why[mood] ? mood : firstMood(f) });
-  } }), open && /* @__PURE__ */ React.createElement(Detail, { film: FILM[open.slug], mood: open.mood, device: "web", onClose: () => setOpen(null) }), profile && /* @__PURE__ */ React.createElement(Profile, { device: "web", onClose: () => setProfile(false), onOpenFilm: (slug) => {
-    setProfile(false);
-    setOpen({ slug, mood: firstMood(FILM[slug]) });
-  } }));
+  } }), open && /* @__PURE__ */ React.createElement(Detail, { film: FILM[open.slug], mood: open.mood, device: "web", onClose: () => setOpen(null) }));
 }
-function Phone({ mood, setMood, onHero }) {
+function Phone({ mood, setMood, onHero, land }) {
   const t = useTonight();
   const sig = sigOf(mood, t);
   const rows = useMemo(() => buildRows(mood, t), [sig]);
   const [open, setOpen] = useState(null);
-  const [profile, setProfile] = useState(false);
   const [picks, setPicks] = useState(false);
   const [page, setPage] = useState("tonight");
   const goMood = (x) => {
@@ -1819,7 +1882,7 @@ function Phone({ mood, setMood, onHero }) {
   useEffect(() => {
     onHero(open ? FILM[open.slug] : hero);
   }, [hero.slug, open && open.slug]);
-  return /* @__PURE__ */ React.createElement("div", { className: "p p--phone" }, /* @__PURE__ */ React.createElement("div", { className: "p-island" }), /* @__PURE__ */ React.createElement("div", { className: "p-status" }, /* @__PURE__ */ React.createElement("span", null, "9:41"), /* @__PURE__ */ React.createElement("span", { className: "p-status__icons" }, /* @__PURE__ */ React.createElement("svg", { viewBox: "0 0 18 12", fill: "#fff" }, /* @__PURE__ */ React.createElement("rect", { x: "0", y: "8", width: "3", height: "4", rx: "1" }), /* @__PURE__ */ React.createElement("rect", { x: "5", y: "5.5", width: "3", height: "6.5", rx: "1" }), /* @__PURE__ */ React.createElement("rect", { x: "10", y: "3", width: "3", height: "9", rx: "1" }), /* @__PURE__ */ React.createElement("rect", { x: "15", y: "0", width: "3", height: "12", rx: "1" })), /* @__PURE__ */ React.createElement("svg", { viewBox: "0 0 16 12", fill: "#fff" }, /* @__PURE__ */ React.createElement("path", { d: "M8 2.2c2.4 0 4.6.9 6.3 2.5l1.2-1.3A10.6 10.6 0 0 0 8 .4 10.6 10.6 0 0 0 .5 3.4l1.2 1.3A9 9 0 0 1 8 2.2zm0 3.6c1.4 0 2.7.5 3.7 1.4l1.2-1.3A7.2 7.2 0 0 0 8 4a7.2 7.2 0 0 0-4.9 1.9l1.2 1.3c1-.9 2.3-1.4 3.7-1.4zM8 9.3l2-2.1a3 3 0 0 0-4 0z" })), /* @__PURE__ */ React.createElement("svg", { viewBox: "0 0 27 12", fill: "none" }, /* @__PURE__ */ React.createElement("rect", { x: ".5", y: ".5", width: "23", height: "11", rx: "3.2", stroke: "#fff", strokeOpacity: ".4" }), /* @__PURE__ */ React.createElement("rect", { x: "2", y: "2", width: "20", height: "8", rx: "2", fill: "#fff" }), /* @__PURE__ */ React.createElement("path", { d: "M25 4v4c.8-.3 1.3-1.1 1.3-2S25.8 4.3 25 4z", fill: "#fff", fillOpacity: ".45" })))), /* @__PURE__ */ React.createElement("div", { className: "p-scroll" }, /* @__PURE__ */ React.createElement("div", { className: "p-apphead" }, /* @__PURE__ */ React.createElement("span", { className: "p-logo" }, /* @__PURE__ */ React.createElement(LiveIris, { mood, size: 22 }), "Aperture"), /* @__PURE__ */ React.createElement(Avatar, { size: 32, onClick: () => setProfile(true) })), page !== "tonight" ? /* @__PURE__ */ React.createElement(PageBody, { key: page, page, device: "phone", mood, goMood, onOpen: openFilm, onHero }) : /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Hero, { film: hero, mood: rowMood(rows[0], hero), device: "phone", onOpen: () => setOpen(openFor(rows[0], hero)) }), /* @__PURE__ */ React.createElement("div", { className: "p-moods" }, /* @__PURE__ */ React.createElement("span", { className: "p-moods__lead" }, "Tonight I want something"), /* @__PURE__ */ React.createElement(TonightBar, { mood, setMood, device: "phone", onPick: () => setPicks(true) })), rows.map((row, ri) => {
+  return /* @__PURE__ */ React.createElement("div", { className: "p p--phone" + (land ? " p--land" : "") }, /* @__PURE__ */ React.createElement("div", { className: "p-island" }), /* @__PURE__ */ React.createElement("div", { className: "p-status" }, /* @__PURE__ */ React.createElement("span", null, "9:41"), /* @__PURE__ */ React.createElement("span", { className: "p-status__icons" }, /* @__PURE__ */ React.createElement("svg", { viewBox: "0 0 18 12", fill: "#fff" }, /* @__PURE__ */ React.createElement("rect", { x: "0", y: "8", width: "3", height: "4", rx: "1" }), /* @__PURE__ */ React.createElement("rect", { x: "5", y: "5.5", width: "3", height: "6.5", rx: "1" }), /* @__PURE__ */ React.createElement("rect", { x: "10", y: "3", width: "3", height: "9", rx: "1" }), /* @__PURE__ */ React.createElement("rect", { x: "15", y: "0", width: "3", height: "12", rx: "1" })), /* @__PURE__ */ React.createElement("svg", { viewBox: "0 0 16 12", fill: "#fff" }, /* @__PURE__ */ React.createElement("path", { d: "M8 2.2c2.4 0 4.6.9 6.3 2.5l1.2-1.3A10.6 10.6 0 0 0 8 .4 10.6 10.6 0 0 0 .5 3.4l1.2 1.3A9 9 0 0 1 8 2.2zm0 3.6c1.4 0 2.7.5 3.7 1.4l1.2-1.3A7.2 7.2 0 0 0 8 4a7.2 7.2 0 0 0-4.9 1.9l1.2 1.3c1-.9 2.3-1.4 3.7-1.4zM8 9.3l2-2.1a3 3 0 0 0-4 0z" })), /* @__PURE__ */ React.createElement("svg", { viewBox: "0 0 27 12", fill: "none" }, /* @__PURE__ */ React.createElement("rect", { x: ".5", y: ".5", width: "23", height: "11", rx: "3.2", stroke: "#fff", strokeOpacity: ".4" }), /* @__PURE__ */ React.createElement("rect", { x: "2", y: "2", width: "20", height: "8", rx: "2", fill: "#fff" }), /* @__PURE__ */ React.createElement("path", { d: "M25 4v4c.8-.3 1.3-1.1 1.3-2S25.8 4.3 25 4z", fill: "#fff", fillOpacity: ".45" })))), /* @__PURE__ */ React.createElement("div", { className: "p-scroll" }, /* @__PURE__ */ React.createElement("div", { className: "p-apphead" }, /* @__PURE__ */ React.createElement("span", { className: "p-logo" }, /* @__PURE__ */ React.createElement(LiveIris, { mood, size: 22 }), "Aperture")), page !== "tonight" ? /* @__PURE__ */ React.createElement(PageBody, { key: page, page, device: "phone", mood, goMood, onOpen: openFilm, onHero }) : /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(Hero, { film: hero, mood: rowMood(rows[0], hero), device: "phone", onOpen: () => setOpen(openFor(rows[0], hero)) }), /* @__PURE__ */ React.createElement("div", { className: "p-moods" }, /* @__PURE__ */ React.createElement("span", { className: "p-moods__lead" }, "Tonight I want something"), /* @__PURE__ */ React.createElement(TonightBar, { mood, setMood, device: "phone", onPick: () => setPicks(true) })), rows.map((row, ri) => {
     const kind = ri === 0 ? "poster" : "key";
     return /* @__PURE__ */ React.createElement("div", { className: "p-row p-row--" + kind, key: row.key + sig }, /* @__PURE__ */ React.createElement(RowLabel, { row, t }), /* @__PURE__ */ React.createElement(LoopScroll, { films: row.films }, (f, i) => /* @__PURE__ */ React.createElement(
       Card,
@@ -1838,10 +1901,7 @@ function Phone({ mood, setMood, onHero }) {
   }))), /* @__PURE__ */ React.createElement("nav", { className: "p-tabs" }, [["tonight", I.home], ["browse", I.grid], ["search", I.search], ["mine", I.list]].map(([id, ic]) => /* @__PURE__ */ React.createElement("button", { key: id, className: "p-tab" + (page === id ? " is-on" : ""), onClick: () => setPage(id) }, ic, PAGES.find((x) => x.id === id).label))), /* @__PURE__ */ React.createElement("div", { className: "p-homebar" }), picks && /* @__PURE__ */ React.createElement(Picks, { device: "phone", mood, onClose: () => setPicks(false), onOpen: (f) => {
     setPicks(false);
     setOpen({ slug: f.slug, mood: f.why[mood] ? mood : firstMood(f) });
-  } }), open && /* @__PURE__ */ React.createElement(Detail, { film: FILM[open.slug], mood: open.mood, device: "phone", onClose: () => setOpen(null) }), profile && /* @__PURE__ */ React.createElement(Profile, { device: "phone", onClose: () => setProfile(false), onOpenFilm: (slug) => {
-    setProfile(false);
-    setOpen({ slug, mood: firstMood(FILM[slug]) });
-  } }));
+  } }), open && /* @__PURE__ */ React.createElement(Detail, { film: FILM[open.slug], mood: open.mood, device: "phone", onClose: () => setOpen(null) }));
 }
 function Backlight({ film }) {
   const [layers, setLayers] = useState([film.slug]);
@@ -1857,8 +1917,12 @@ function TVMock({ children, film }) {
 function BrowserMock({ children, film }) {
   return /* @__PURE__ */ React.createElement("div", { className: "ek-browser" }, /* @__PURE__ */ React.createElement("div", { className: "ek-browser__body" }, /* @__PURE__ */ React.createElement(Backlight, { film }), /* @__PURE__ */ React.createElement("div", { className: "ek-browser__win" }, /* @__PURE__ */ React.createElement("div", { className: "ek-browser__bar" }, /* @__PURE__ */ React.createElement("div", { className: "ek-dots" }, /* @__PURE__ */ React.createElement("i", null), /* @__PURE__ */ React.createElement("i", null), /* @__PURE__ */ React.createElement("i", null)), /* @__PURE__ */ React.createElement("div", { className: "ek-url" }, I.lock, /* @__PURE__ */ React.createElement("span", null, "aperture.erfesh.com")), /* @__PURE__ */ React.createElement("div", { className: "ek-browser__spacer" })), /* @__PURE__ */ React.createElement(Scaled, { w: 1280, h: 760 }, children))));
 }
-function PhoneMock({ children, film }) {
-  return /* @__PURE__ */ React.createElement("div", { className: "ek-phone" }, /* @__PURE__ */ React.createElement("div", { className: "ek-phone__body" }, /* @__PURE__ */ React.createElement(Backlight, { film }), /* @__PURE__ */ React.createElement("div", { className: "ek-phone__frame" }, /* @__PURE__ */ React.createElement("span", { className: "ek-phone__btn", style: { left: -2, top: "17%", height: "4%" } }), /* @__PURE__ */ React.createElement("span", { className: "ek-phone__btn", style: { left: -2, top: "25%", height: "7.5%" } }), /* @__PURE__ */ React.createElement("span", { className: "ek-phone__btn", style: { left: -2, top: "34%", height: "7.5%" } }), /* @__PURE__ */ React.createElement("span", { className: "ek-phone__btn", style: { right: -2, top: "27%", height: "11%" } }), /* @__PURE__ */ React.createElement("div", { className: "ek-phone__screen" }, /* @__PURE__ */ React.createElement(Scaled, { w: 390, h: 844 }, children)))));
+function PhoneMock({ children, film, land }) {
+  return /* @__PURE__ */ React.createElement("div", { className: "ek-phone" + (land ? " ek-phone--land" : "") }, /* @__PURE__ */ React.createElement("div", { className: "ek-phone__body" }, /* @__PURE__ */ React.createElement(Backlight, { film }), /* @__PURE__ */ React.createElement("div", { className: "ek-phone__frame" }, land ? /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("span", { className: "ek-phone__btn ek-phone__btn--h", style: { bottom: -2, left: "17%", width: "4%" } }), /* @__PURE__ */ React.createElement("span", { className: "ek-phone__btn ek-phone__btn--h", style: { bottom: -2, left: "25%", width: "7.5%" } }), /* @__PURE__ */ React.createElement("span", { className: "ek-phone__btn ek-phone__btn--h", style: { bottom: -2, left: "34%", width: "7.5%" } }), /* @__PURE__ */ React.createElement("span", { className: "ek-phone__btn ek-phone__btn--h", style: { top: -2, left: "27%", width: "11%" } })) : /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("span", { className: "ek-phone__btn", style: { left: -2, top: "17%", height: "4%" } }), /* @__PURE__ */ React.createElement("span", { className: "ek-phone__btn", style: { left: -2, top: "25%", height: "7.5%" } }), /* @__PURE__ */ React.createElement("span", { className: "ek-phone__btn", style: { left: -2, top: "34%", height: "7.5%" } }), /* @__PURE__ */ React.createElement("span", { className: "ek-phone__btn", style: { right: -2, top: "27%", height: "11%" } })), /* @__PURE__ */ React.createElement("div", { className: "ek-phone__screen" }, land ? /* @__PURE__ */ React.createElement(Scaled, { w: 844, h: 390 }, children) : /* @__PURE__ */ React.createElement(Scaled, { w: 390, h: 844 }, children)))));
+}
+function PhonePair({ film, mood, setMood, onHero }) {
+  return /* @__PURE__ */ React.createElement("div", { className: "ek-phones" }, /* @__PURE__ */ React.createElement(PhoneMock, { film }, /* @__PURE__ */ React.createElement(Phone, { mood, setMood, onHero })), /* @__PURE__ */ React.createElement(PhoneMock, { film, land: true }, /* @__PURE__ */ React.createElement(Phone, { mood, setMood, onHero: () => {
+  }, land: true })));
 }
 const DEVICES = [{ id: "tv", label: "TV" }, { id: "web", label: "Web" }, { id: "phone", label: "Phone" }];
 function Toast() {
@@ -1939,8 +2003,8 @@ function App() {
     io.observe(stageRef.current);
     return () => io.disconnect();
   }, []);
-  const product = device === "tv" ? /* @__PURE__ */ React.createElement(TV, { mood, setMood: pickMood, onHero: setHero, active: inView }) : device === "web" ? /* @__PURE__ */ React.createElement(Web, { mood, setMood: pickMood, onHero: setHero }) : /* @__PURE__ */ React.createElement(Phone, { mood, setMood: pickMood, onHero: setHero });
-  return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(TonightCtx.Provider, { value: tonight }, /* @__PURE__ */ React.createElement("div", { className: "ek-room" }), /* @__PURE__ */ React.createElement("div", { className: "ek-grain" }), /* @__PURE__ */ React.createElement("div", { className: "ek-page" + (device === "phone" ? " is-phone" : ""), "data-cut": "ek" }, /* @__PURE__ */ React.createElement("header", { className: "ek-top" }, /* @__PURE__ */ React.createElement("div", { className: "ek-brand" }, /* @__PURE__ */ React.createElement(LiveIris, { mood, size: 24 }), /* @__PURE__ */ React.createElement("span", { className: "ek-brand__name" }, "Aperture"), /* @__PURE__ */ React.createElement("span", { className: "ek-brand__by" }, "A prototype by Erfan Kooshesh")), /* @__PURE__ */ React.createElement("nav", { className: "ek-links" }, /* @__PURE__ */ React.createElement("a", { className: "ek-link", href: "https://erfesh.com", target: "_blank", rel: "noopener" }, "erfesh.com", I.out), /* @__PURE__ */ React.createElement("a", { className: "ek-link", href: "https://www.linkedin.com/in/erfesh", target: "_blank", rel: "noopener" }, "LinkedIn", I.out))), /* @__PURE__ */ React.createElement("section", { className: "ek-lede" }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("h1", null, "Pick a mood, ", /* @__PURE__ */ React.createElement("em", null, "not a genre.")), /* @__PURE__ */ React.createElement("p", null, "A streaming home screen that starts from how you want tonight to feel, and tells you why each film fits.")), /* @__PURE__ */ React.createElement("div", { className: "ek-seg", ref: segRef, role: "group", "aria-label": "Device" }, /* @__PURE__ */ React.createElement("span", { className: "ek-seg__pill", style: pill }), DEVICES.map((d) => /* @__PURE__ */ React.createElement("button", { key: d.id, "aria-pressed": device === d.id, onClick: () => setDevice(d.id) }, I[d.id], d.label)))), /* @__PURE__ */ React.createElement("section", { className: "ek-stage", ref: stageRef, "aria-label": "Prototype" }, /* @__PURE__ */ React.createElement("div", { key: device, className: "ek-swap" }, device === "tv" ? /* @__PURE__ */ React.createElement(TVMock, { film: hero }, product) : device === "web" ? /* @__PURE__ */ React.createElement(BrowserMock, { film: hero }, product) : /* @__PURE__ */ React.createElement(PhoneMock, { film: hero }, product)), /* @__PURE__ */ React.createElement("div", { className: "ek-hint" }, device === "tv" ? /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("span", null, /* @__PURE__ */ React.createElement("kbd", null, "\u2190"), /* @__PURE__ */ React.createElement("kbd", null, "\u2192"), /* @__PURE__ */ React.createElement("kbd", null, "\u2191"), /* @__PURE__ */ React.createElement("kbd", null, "\u2193"), " move"), /* @__PURE__ */ React.createElement("span", null, /* @__PURE__ */ React.createElement("kbd", null, "Enter"), " open, pick or change"), /* @__PURE__ */ React.createElement("span", null, /* @__PURE__ */ React.createElement("kbd", null, "\u232B"), " clear or back"), /* @__PURE__ */ React.createElement("span", null, /* @__PURE__ */ React.createElement("kbd", null, "Esc"), " back")) : device === "web" ? /* @__PURE__ */ React.createElement("span", null, "Hover a title to preview it, click to open") : /* @__PURE__ */ React.createElement("span", null, "Tap a mood, tap a title"))), /* @__PURE__ */ React.createElement("section", { className: "ek-notes", "aria-labelledby": "notes-h" }, /* @__PURE__ */ React.createElement("div", { className: "ek-notes__head" }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { className: "ek-eyebrow" }, "A note from the designer"), /* @__PURE__ */ React.createElement("h2", { id: "notes-h" }, "Behind the prototype"))), /* @__PURE__ */ React.createElement("div", { className: "ek-notes__grid" }, /* @__PURE__ */ React.createElement("div", { className: "ek-note" }, /* @__PURE__ */ React.createElement("h3", null, "The idea"), /* @__PURE__ */ React.createElement("p", null, "For five years I've written a version of this sentence for @erfesh almost every day: here's why this one, for you, tonight. Streaming apps mostly sort by genre and popularity. People don't actually choose that way, they choose by mood: what they have the attention for, who they're watching with, whether tonight can take a sad ending.")), /* @__PURE__ */ React.createElement("div", { className: "ek-note" }, /* @__PURE__ */ React.createElement("h3", null, "The reasons"), /* @__PURE__ */ React.createElement("p", null, "This prototype swaps genre rows for mood rows, and gives each title a short, specific reason instead of a star rating. The reasons are written by hand to show the voice I'd want an AI step to match, not pulled from a live model. The loading behavior, request IDs and skeleton states are real, though, built the way it would work against an actual API.")), /* @__PURE__ */ React.createElement("div", { className: "ek-note" }, /* @__PURE__ */ React.createElement("h3", null, "Every screen"), /* @__PURE__ */ React.createElement("p", null, "It's built the same way across web, mobile and the TV, and the TV layout is fully navigable by remote: arrow keys move between rows and within them, Enter opens a title.")))), /* @__PURE__ */ React.createElement("section", { className: "ek-notes ek-notes--fix", "aria-labelledby": "fix-h" }, /* @__PURE__ */ React.createElement("div", { className: "ek-notes__head" }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { className: "ek-eyebrow" }, "What it fixes"), /* @__PURE__ */ React.createElement("h2", { id: "fix-h" }, "Three things streaming apps get wrong"))), /* @__PURE__ */ React.createElement("div", { className: "ek-notes__grid" }, /* @__PURE__ */ React.createElement("div", { className: "ek-note" }, /* @__PURE__ */ React.createElement("h3", null, "Too much choice"), /* @__PURE__ */ React.createElement("p", null, "Endless rows make deciding harder, not easier. The Tonight bar asks the three questions people actually answer first: what mood, how much time, and who's watching. Pick for me then shows three options, each with its reason, instead of three hundred.")), /* @__PURE__ */ React.createElement("div", { className: "ek-note" }, /* @__PURE__ */ React.createElement("h3", null, "Hidden prices"), /* @__PURE__ */ React.createElement("p", null, "Included titles, rentals and add-on channels usually sit in the same rows with no clear signal. Here every card that costs extra says so up front, Watch now hides anything you'd have to pay for, and checkout is one honest step: the price, how long you get it, and how to cancel.")), /* @__PURE__ */ React.createElement("div", { className: "ek-note" }, /* @__PURE__ */ React.createElement("h3", null, "A cluttered Continue watching"), /* @__PURE__ */ React.createElement("p", null, "Shows you gave up on months ago shouldn't follow you around. Each title shows how much is left, and one tap (or the back key on a remote) clears it for good.")))), /* @__PURE__ */ React.createElement("footer", { className: "ek-foot" }, /* @__PURE__ */ React.createElement("span", null, "Designed and built by Erfan Kooshesh \xB7 ", /* @__PURE__ */ React.createElement("a", { href: "https://erfesh.com", target: "_blank", rel: "noopener" }, "erfesh.com"), " \xB7 ", /* @__PURE__ */ React.createElement("a", { href: "https://www.linkedin.com/in/erfesh", target: "_blank", rel: "noopener" }, "LinkedIn")), /* @__PURE__ */ React.createElement("span", null, "Film titles and artwork belong to their studios. Shown here in a non-commercial prototype."))), /* @__PURE__ */ React.createElement(Toast, null)));
+  const product = device === "tv" ? /* @__PURE__ */ React.createElement(TV, { mood, setMood: pickMood, onHero: setHero, active: inView }) : device === "web" ? /* @__PURE__ */ React.createElement(Web, { mood, setMood: pickMood, onHero: setHero }) : null;
+  return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(TonightCtx.Provider, { value: tonight }, /* @__PURE__ */ React.createElement("div", { className: "ek-room" }), /* @__PURE__ */ React.createElement("div", { className: "ek-grain" }), /* @__PURE__ */ React.createElement("div", { className: "ek-page", "data-cut": "ek" }, /* @__PURE__ */ React.createElement("header", { className: "ek-top" }, /* @__PURE__ */ React.createElement("div", { className: "ek-brand" }, /* @__PURE__ */ React.createElement(LiveIris, { mood, size: 24 }), /* @__PURE__ */ React.createElement("span", { className: "ek-brand__name" }, "Aperture"), /* @__PURE__ */ React.createElement("span", { className: "ek-brand__by" }, "A prototype by Erfan Kooshesh")), /* @__PURE__ */ React.createElement("nav", { className: "ek-links" }, /* @__PURE__ */ React.createElement("a", { className: "ek-link", href: "https://erfesh.com", target: "_blank", rel: "noopener" }, "erfesh.com", I.out), /* @__PURE__ */ React.createElement("a", { className: "ek-link", href: "https://www.linkedin.com/in/erfesh", target: "_blank", rel: "noopener" }, "LinkedIn", I.out))), /* @__PURE__ */ React.createElement("section", { className: "ek-lede" }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("h1", null, "Pick a mood, ", /* @__PURE__ */ React.createElement("em", null, "not a genre.")), /* @__PURE__ */ React.createElement("p", null, "A streaming home screen that starts from how you want tonight to feel, and tells you why each film fits."))), /* @__PURE__ */ React.createElement("section", { className: "ek-stage", ref: stageRef, "aria-label": "Prototype" }, /* @__PURE__ */ React.createElement("div", { className: "ek-stage__main" }, /* @__PURE__ */ React.createElement("div", { className: "ek-seg ek-switch", ref: segRef, role: "group", "aria-label": "Preview on" }, /* @__PURE__ */ React.createElement("span", { className: "ek-switch__label" }, "Preview on"), /* @__PURE__ */ React.createElement("span", { className: "ek-seg__pill", style: pill }), DEVICES.map((d) => /* @__PURE__ */ React.createElement("button", { key: d.id, "aria-pressed": device === d.id, onClick: () => setDevice(d.id) }, I[d.id], d.label))), /* @__PURE__ */ React.createElement("div", { key: device, className: "ek-swap" }, device === "tv" ? /* @__PURE__ */ React.createElement(TVMock, { film: hero }, product) : device === "web" ? /* @__PURE__ */ React.createElement(BrowserMock, { film: hero }, product) : /* @__PURE__ */ React.createElement(PhonePair, { film: hero, mood, setMood: pickMood, onHero: setHero }))), /* @__PURE__ */ React.createElement("div", { className: "ek-hint" }, device === "tv" ? /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("span", null, /* @__PURE__ */ React.createElement("kbd", null, "\u2190"), /* @__PURE__ */ React.createElement("kbd", null, "\u2192"), /* @__PURE__ */ React.createElement("kbd", null, "\u2191"), /* @__PURE__ */ React.createElement("kbd", null, "\u2193"), " move"), /* @__PURE__ */ React.createElement("span", null, /* @__PURE__ */ React.createElement("kbd", null, "Enter"), " open, pick or change"), /* @__PURE__ */ React.createElement("span", null, /* @__PURE__ */ React.createElement("kbd", null, "\u232B"), " clear or back"), /* @__PURE__ */ React.createElement("span", null, /* @__PURE__ */ React.createElement("kbd", null, "Esc"), " back")) : device === "web" ? /* @__PURE__ */ React.createElement("span", null, "Hover a title to preview it, click to open") : /* @__PURE__ */ React.createElement("span", null, "Tap a mood, tap a title"))), /* @__PURE__ */ React.createElement("section", { className: "ek-notes", "aria-labelledby": "notes-h" }, /* @__PURE__ */ React.createElement("div", { className: "ek-notes__head" }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { className: "ek-eyebrow" }, "A note from the designer"), /* @__PURE__ */ React.createElement("h2", { id: "notes-h" }, "Behind the prototype"))), /* @__PURE__ */ React.createElement("div", { className: "ek-notes__grid" }, /* @__PURE__ */ React.createElement("div", { className: "ek-note" }, /* @__PURE__ */ React.createElement("h3", null, "The idea"), /* @__PURE__ */ React.createElement("p", null, "For five years I've written a version of this sentence for @erfesh almost every day: here's why this one, for you, tonight. Streaming apps mostly sort by genre and popularity. People don't actually choose that way, they choose by mood: what they have the attention for, who they're watching with, whether tonight can take a sad ending.")), /* @__PURE__ */ React.createElement("div", { className: "ek-note" }, /* @__PURE__ */ React.createElement("h3", null, "The reasons"), /* @__PURE__ */ React.createElement("p", null, "This prototype swaps genre rows for mood rows, and gives each title a short, specific reason instead of a star rating. The reasons are written by hand to show the voice I'd want an AI step to match, not pulled from a live model. The loading behavior, request IDs and skeleton states are real, though, built the way it would work against an actual API.")), /* @__PURE__ */ React.createElement("div", { className: "ek-note" }, /* @__PURE__ */ React.createElement("h3", null, "Every screen"), /* @__PURE__ */ React.createElement("p", null, "It's built the same way across web, mobile and the TV, and the TV layout is fully navigable by remote: arrow keys move between rows and within them, Enter opens a title.")))), /* @__PURE__ */ React.createElement("section", { className: "ek-notes ek-notes--fix", "aria-labelledby": "fix-h" }, /* @__PURE__ */ React.createElement("div", { className: "ek-notes__head" }, /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", { className: "ek-eyebrow" }, "What it fixes"), /* @__PURE__ */ React.createElement("h2", { id: "fix-h" }, "Three things streaming apps get wrong"))), /* @__PURE__ */ React.createElement("div", { className: "ek-notes__grid" }, /* @__PURE__ */ React.createElement("div", { className: "ek-note" }, /* @__PURE__ */ React.createElement("h3", null, "Too much choice"), /* @__PURE__ */ React.createElement("p", null, "Endless rows make deciding harder, not easier. The Tonight bar asks the three questions people actually answer first: what mood, how much time, and who's watching. Pick for me then shows three options, each with its reason, instead of three hundred.")), /* @__PURE__ */ React.createElement("div", { className: "ek-note" }, /* @__PURE__ */ React.createElement("h3", null, "Hidden prices"), /* @__PURE__ */ React.createElement("p", null, "Included titles, rentals and add-on channels usually sit in the same rows with no clear signal. Here every card that costs extra says so up front, Watch now hides anything you'd have to pay for, and checkout is one honest step: the price, how long you get it, and how to cancel.")), /* @__PURE__ */ React.createElement("div", { className: "ek-note" }, /* @__PURE__ */ React.createElement("h3", null, "A cluttered Continue watching"), /* @__PURE__ */ React.createElement("p", null, "Shows you gave up on months ago shouldn't follow you around. Each title shows how much is left, and one tap (or the back key on a remote) clears it for good.")))), /* @__PURE__ */ React.createElement("footer", { className: "ek-foot" }, /* @__PURE__ */ React.createElement("span", null, "Designed and built by Erfan Kooshesh \xB7 ", /* @__PURE__ */ React.createElement("a", { href: "https://erfesh.com", target: "_blank", rel: "noopener" }, "erfesh.com"), " \xB7 ", /* @__PURE__ */ React.createElement("a", { href: "https://www.linkedin.com/in/erfesh", target: "_blank", rel: "noopener" }, "LinkedIn")), /* @__PURE__ */ React.createElement("span", null, "Film titles and artwork belong to their studios. Shown here in a non-commercial prototype."))), /* @__PURE__ */ React.createElement(Toast, null)));
 }
 console.log("%c\u25CE Aperture ", "font:600 13px system-ui;padding:4px 10px;border-radius:6px;background:#f3f3f0;color:#07080a");
 console.log('%cDesigned and built by Erfan Kooshesh\nerfesh.com \xB7 linkedin.com/in/erfesh\n\nP.S. type "erf" on the page.', "font:12px ui-monospace,monospace;color:#a6aab2;line-height:1.6");
