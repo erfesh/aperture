@@ -833,3 +833,16 @@ html, body { overflow-x: clip; }
 @media (min-width: 1001px) {
   .ek-switch { right: calc(50% + var(--ek-dev-w) / 2 + clamp(24px, (100vw - var(--ek-dev-w)) / 2 - 140px, 64px)); }
 }
+
+/* ── final layout: the switch rail sits flush with the headline, the device to its right ── */
+@media (min-width: 1001px) {
+  .ek-page { --ek-dev-w: min(70vw, calc((100svh - 250px) * 1.7)); --ek-rail: 160px; --ek-rail-gap: 40px;
+    max-width: calc(var(--ek-dev-w) + var(--ek-rail) + var(--ek-rail-gap) + 80px); }
+  .ek-stage { --ek-dev-w: inherit; }
+  .ek-tv, .ek-browser, .ek-phones { margin-left: calc(var(--ek-rail) + var(--ek-rail-gap)); margin-right: 0; }
+  .ek-switch { left: 0; right: auto; width: var(--ek-rail); box-sizing: border-box; padding: 6px; }
+  .ek-switch button { width: 146px; box-sizing: border-box; }
+  .ek-switch__label { padding-inline: 13px; }
+  .ek-hint { padding-left: calc(var(--ek-rail) + var(--ek-rail-gap)); }
+}
+.ek-seg__pill { left: 0; }
