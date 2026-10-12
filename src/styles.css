@@ -703,3 +703,34 @@ html, body { overflow-x: clip; }
 
 .p--tv.is-page .p-nav { top: 0; left: 0; right: 0; padding: 30px 72px 22px; background: linear-gradient(180deg, #07080a 62%, rgba(7,8,10,0)); z-index: 12; }
 .p--tv .p-pagewrap { padding-top: 112px; }
+
+/* ── stage sizing: TV and web at 70% of the window, centered; phone fits the window height ── */
+.ek-page { overflow-x: visible; }
+.ek-stage { --ek-dev-w: min(70vw, calc((100svh - 150px) * 1.7)); }
+.ek-tv, .ek-browser { width: var(--ek-dev-w); max-width: none; margin-inline: calc(50% - var(--ek-dev-w) / 2); }
+.ek-phone { width: clamp(280px, calc((100svh - 70px) * .45), 400px); }
+@media (max-width: 1000px) { .ek-stage { --ek-dev-w: 100%; } }
+@media (max-width: 520px) { .ek-phone { width: min(340px, 86vw); } }
+/* compact lede so the device sits in the first screen */
+@media (min-width: 1001px) {
+  .ek-lede { margin-top: 26px; margin-bottom: 22px; align-items: center; }
+  .ek-lede h1 { font-size: clamp(30px, 3.2vw, 46px); max-width: none; }
+  .ek-lede p { margin-top: 8px; }
+  .ek-stage { --ek-dev-w: min(70vw, calc((100svh - 250px) * 1.7)); }
+  .ek-phone { width: clamp(280px, calc((100svh - 240px) * .45), 400px); }
+}
+
+/* phone detail: no wrapped words in the action buttons */
+.p--phone .p-detail .p-actions { flex-wrap: wrap; }
+.p--phone .p-detail .p-actions .p-btn { flex: 1 1 auto; white-space: nowrap; padding-inline: 14px; }
+.p--phone .p-detail .p-actions .p-btn--primary { flex-basis: 100%; }
+
+/* phone mode on wide screens: headline on the left, phone centered and starting at the top */
+@media (min-width: 1001px) {
+  .ek-page.is-phone { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); column-gap: 40px; align-items: start; }
+  .ek-page.is-phone > * { grid-column: 1 / -1; }
+  .ek-page.is-phone > .ek-lede { grid-column: 1; grid-row: 2; flex-direction: column; align-items: flex-start; justify-content: center; align-self: center; margin: 0; }
+  .ek-page.is-phone > .ek-stage { grid-column: 2; grid-row: 2; margin-top: 18px; }
+  .ek-page.is-phone .ek-lede h1 { font-size: clamp(30px, 2.8vw, 42px); max-width: 12ch; }
+  .ek-page.is-phone .ek-phone { width: clamp(260px, calc((100svh - 180px) * .43), 360px); }
+}

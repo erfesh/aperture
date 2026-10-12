@@ -1230,7 +1230,7 @@ function App() {
     <>
       <TonightCtx.Provider value={tonight}>
       <div className="ek-room" /><div className="ek-grain" />
-      <div className="ek-page" data-cut="ek">
+      <div className={'ek-page' + (device === 'phone' ? ' is-phone' : '')} data-cut="ek">
         <header className="ek-top">
           <div className="ek-brand"><LiveIris mood={mood} size={24} /><span className="ek-brand__name">Aperture</span><span className="ek-brand__by">A prototype by Erfan Kooshesh</span></div>
           <nav className="ek-links">
